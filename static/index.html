@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas - Enterprise Research Verification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">�️</span>
+                <span class="logo-text">Veritas</span>
+            </div>
+            <div class="header-subtitle">Enterprise Research Verification System</div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section id="upload-section" class="upload-section">
+                <div class="section-header">
+                    <h2>Upload Your Research Materials</h2>
+                    <p>Our AI agents will analyze your paper for reproducibility, statistical validity, and reviewer concerns.</p>
+                </div>
+
+                <form id="upload-form" class="upload-form">
+                    <!-- Paper Upload -->
+                    <div class="upload-card primary">
+                        <div class="upload-icon">📄</div>
+                        <div class="upload-content">
+                            <h3>Research Paper</h3>
+                            <p>PDF, LaTeX, or plain text</p>
+                            <input type="file" id="paper-input" accept=".pdf,.tex,.txt,.md" required>
+                            <label for="paper-input" class="upload-btn">
+                                <span class="upload-btn-text">Choose File</span>
+                            </label>
+                            <div class="file-name" id="paper-name"></div>
+                        </div>
+                    </div>
+
+                    <!-- Optional Uploads -->
+                    <div class="optional-uploads">
+                        <div class="upload-card">
+                            <div class="upload-icon">📊</div>
+                            <div class="upload-content">
+                                <h3>Experiment Logs</h3>
+                                <p>CSV, JSON, or text logs</p>
+                                <input type="file" id="logs-input" accept=".csv,.json,.txt,.log" multiple>
+                                <label for="logs-input" class="upload-btn secondary">Add Logs</label>
+                                <div class="file-name" id="logs-name"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-card">
+                            <div class="upload-icon">🐍</div>
+                            <div class="upload-content">
+                                <h3>Experiment Scripts</h3>
+                                <p>Python training scripts</p>
+                                <input type="file" id="scripts-input" accept=".py" multiple>
+                                <label for="scripts-input" class="upload-btn secondary">Add Scripts</label>
+                                <div class="file-name" id="scripts-name"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-card">
+                            <div class="upload-icon">📚</div>
+                            <div class="upload-content">
+                                <h3>BibTeX References</h3>
+                                <p>Citation file (.bib)</p>
+                                <input type="file" id="bibtex-input" accept=".bib">
+                                <label for="bibtex-input" class="upload-btn secondary">Add BibTeX</label>
+                                <div class="file-name" id="bibtex-name"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="analyze-btn" id="analyze-btn">
+                        <span class="btn-icon">🚀</span>
+                        <span class="btn-text">Analyze Paper</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress-section" class="progress-section hidden">
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <h2>Analyzing Your Paper</h2>
+                        <p id="current-agent">Initializing...</p>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <div class="progress-percentage" id="progress-percentage">0%</div>
+                    
+                    <div class="agents-list">
+                        <div class="agent-item" data-agent="PaperParserAgent">
+                            <span class="agent-icon">📄</span>
+                            <span class="agent-name">Paper Parser</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="ReproducibilityAgent">
+                            <span class="agent-icon">🔄</span>
+                            <span class="agent-name">Reproducibility Checker</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="ExperimentEvidenceAgent">
+                            <span class="agent-icon">🧪</span>
+                            <span class="agent-name">Experiment Evidence</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="StatisticalAuditorAgent">
+                            <span class="agent-icon">📈</span>
+                            <span class="agent-name">Statistical Auditor</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="RelatedWorkBaselineAgent">
+                            <span class="agent-icon">📚</span>
+                            <span class="agent-name">Related Work Analyzer</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="ReviewerSimulationAgent">
+                            <span class="agent-icon">👨‍🔬</span>
+                            <span class="agent-name">Reviewer Simulation</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                        <div class="agent-item" data-agent="VerdictAgent">
+                            <span class="agent-icon">⚖️</span>
+                            <span class="agent-name">Final Verdict</span>
+                            <span class="agent-status">⏳</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="results-section hidden">
+                <div class="results-header">
+                    <h2>Analysis Complete</h2>
+                    <button class="new-analysis-btn" onclick="resetAnalysis()">
+                        ← New Analysis
+                    </button>
+                </div>
+
+                <!-- Verdict Card -->
+                <div class="verdict-card" id="verdict-card">
+                    <div class="verdict-readiness" id="verdict-readiness">Loading...</div>
+                    <div class="verdict-text" id="verdict-text"></div>
+                    <div class="verdict-scores">
+                        <div class="score-item">
+                            <div class="score-label">Confidence</div>
+                            <div class="score-value" id="confidence-score">--</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">Reproducibility</div>
+                            <div class="score-value" id="repro-score">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="results-grid">
+                    <!-- Critical Issues -->
+                    <div class="result-card critical">
+                        <div class="card-header">
+                            <span class="card-icon">⚠️</span>
+                            <h3>Critical Issues</h3>
+                        </div>
+                        <ul class="issue-list" id="critical-issues">
+                            <li>Loading...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Action Items -->
+                    <div class="result-card actions">
+                        <div class="card-header">
+                            <span class="card-icon">✅</span>
+                            <h3>Action Items</h3>
+                        </div>
+                        <ul class="action-list" id="action-items">
+                            <li>Loading...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Reviewer Comments -->
+                    <div class="result-card reviewer">
+                        <div class="card-header">
+                            <span class="card-icon">👨‍🔬</span>
+                            <h3>Expected Reviewer Comments</h3>
+                        </div>
+                        <div class="comments-list" id="reviewer-comments">
+                            <div class="comment">Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Paper Analysis -->
+                    <div class="result-card analysis">
+                        <div class="card-header">
+                            <span class="card-icon">📄</span>
+                            <h3>Paper Analysis</h3>
+                        </div>
+                        <div class="analysis-content" id="paper-analysis">
+                            <div class="analysis-item">
+                                <span class="label">Datasets:</span>
+                                <span class="value" id="datasets">--</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="label">Metrics:</span>
+                                <span class="value" id="metrics">--</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="label">Claims:</span>
+                                <span class="value" id="claims">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reproducibility -->
+                    <div class="result-card repro">
+                        <div class="card-header">
+                            <span class="card-icon">🔄</span>
+                            <h3>Reproducibility Analysis</h3>
+                        </div>
+                        <div class="repro-content" id="repro-analysis">
+                            <div class="repro-score-display">
+                                <svg class="score-circle" viewBox="0 0 100 100">
+                                    <circle class="score-bg" cx="50" cy="50" r="45"/>
+                                    <circle class="score-fg" id="repro-circle" cx="50" cy="50" r="45"/>
+                                </svg>
+                                <div class="score-center" id="repro-center">0%</div>
+                            </div>
+                            <ul class="missing-list" id="missing-items">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Related Work -->
+                    <div class="result-card related">
+                        <div class="card-header">
+                            <span class="card-icon">📚</span>
+                            <h3>Related Work Coverage</h3>
+                        </div>
+                        <div class="related-content" id="related-work">
+                            <div class="stat-row">
+                                <span class="stat-label">Citations Found:</span>
+                                <span class="stat-value" id="citation-count">--</span>
+                            </div>
+                            <div class="issues-list" id="related-issues"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by <strong>Google ADK</strong> Multi-Agent System</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
